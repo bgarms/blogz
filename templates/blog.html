@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 align="center">blog users!</h1>
+    
+        {% if blogs|length == 0 %}
+        <p>No blogs yet</p>
+        {% else %}
+
+        <ul>
+            {% for blog in blogs %}
+                <a href=/blog?user={{blog.user}}><h2>{{blog.title}}</h2></a>
+                <br>
+            {% endfor %}
+        </ul>
+        {% endif %}
+            
+            
+{% endblock %}
+            
+
+    
+
+    
+
