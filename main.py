@@ -95,7 +95,7 @@ def blog():
     return render_template('blog.html', blogs=blogs)
 
     
-@app.route('/newpost', methods=['POST', 'GET'])
+@app.route('/newpost', methods=['POST', 'GET']) # -- page not routing to login screen first, or checking for login info
 def newpost():
     if request.method == 'POST':
         title = request.form['title']
