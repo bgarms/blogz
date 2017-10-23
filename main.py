@@ -215,7 +215,7 @@ def newpost():
 
     title_error = ''
     body_error = ''
-    error = True
+    error = False
 
     if request.method == 'GET':
         return render_template('newpost.html', title="Add a blog entry")
@@ -227,18 +227,17 @@ def newpost():
         owner_id = User.query.filter_by(username=session['username']).first().id
 
     if not title and not body:
-        flash("Please fill out all fields.")
-        return redirect('/newpost')
+        title_error = "Please add a title"
+        body_error = "Please add a body"
+        error = True
 
     if body == '':
         title = request.form['title']
-        flash('Please fill out all fields.')
         body_error = 'Blogs cannot be empty.'
         error = True
 
     if title == '':
         body = request.form['body']
-        flash('Please fill out all fields.')
         title_error = 'Blogs must have a title.'
         error = True
 
