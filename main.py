@@ -134,12 +134,12 @@ def signup():
         username_error = ''
         password_error = ''
         verify_password_error = ''
+        error = False
 
         username_db_id = User.query.filter_by(username=username).count()
 
         if username_db_id > 0:
             username_error = "Username already exists"
-            username = ''
             error = True
             
         elif username == '' or  len(username) < 3 or len(username) > 20:
@@ -147,24 +147,28 @@ def signup():
             error = True
 
 
-        elif password == '' or len(password) < 3 or len(password) > 20:
+        if password == '' or len(password) < 3 or len(password) > 20:
             password_error = "Invalid Password"
             error = True
 
-        elif password != verify_password:
+        if password != verify_password:
             verify_password_error = "Passwords do not match"
             error = True
-        
+
+        if error:
             return render_template('signup.html', username=username, username_error=username_error, password_error=password_error, 
                 verify_password_error=verify_password_error)
                 
-        else:
-            user = User(username, password)
-            db.session.add(user)
-            db.session.commit()
-            session['username'] = username
+        
+        user = User(username, password)
+        db.session.add(user)
+        db.session.commit()
+        session['username'] = username
+        url = '/newpost'
+        response = make_response(redirect(url))
+        response.set_cookie('logged_in', username, max_age=120)
 
-            return redirect('/newpost')
+        return response
 
 
 @app.route('/blog', methods=['GET'])
