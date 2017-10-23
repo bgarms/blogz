@@ -2,8 +2,14 @@
 
 {% block content %}
 
-<h1 align="center">Blog Posts!</h1>
+<h1 align="center">{{title}}</h1>
 
+{% if blog == None %}
+<p>No blogs yet</p>
+
+{% else %}
+
+{% for blog in blogs%}
 <ul> 
     <h3><a href="/blog?id={{blog.id}}" value="{{blog.title}}">{{blog.title}}</a></h3>
     
@@ -14,11 +20,17 @@
     <input type="hidden" name="id" value="{{blog.id}}"/>
 
     <hr />
+
+
     
 
 
 
 </ul>
+
+{% endfor %}
+
+{% endif %}
 
 
 {% endblock %}

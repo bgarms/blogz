@@ -179,17 +179,24 @@ def blog():
 
     if request.args.get('user') == None:
         blog = Blog.query.all()
-        return render_template('blog.html', title='blog posts', blog=blog)
+        print(blog)
+        return render_template('blog.html', title='blog posts', blogs=blog)
     
     else:
         blog_id = request.args.get('user')
         blog_entry = Blog.query.filter_by(owner_id=blog_id).first()
-        owner_id = blog_entry.owner_id
-        user = User.query.get(owner_id)
-        blog = Blog.query.filter_by(owner_id=blog_id).all()
+        
+        if blog_entry == None:
+            return render_template('blog.html', title='Your Blog', blog=blog, user=user)
+        else:
+
+            owner_id = blog_entry.owner_id
+            user = User.query.get(owner_id)
+            blog = Blog.query.filter_by(owner_id=blog_id).all()
 
         return render_template('singleUser.html', title='Your Blog', blog=blog, user=user)
-    return render_template('blog.html', blog=blog, users=users)
+
+    return render_template('blog.html', blog=blog, user=user)
 
 @app.route('/singleBlog', methods=['GET'])
 def single_blog():
